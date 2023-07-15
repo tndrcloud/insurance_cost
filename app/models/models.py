@@ -12,8 +12,18 @@ class Category(Enum):
 
 class CargoRate(BaseModel):
     cargo_type: Category
-    rate: int = Field(ge=0)
+    rate: float = Field(ge=0)
 
 
 class DataRate(BaseModel):
     date: List[CargoRate]
+
+
+class DataForCalculation(BaseModel):
+    date: str
+    cargo_type: Category
+    price: float = Field(ge=0)
+
+
+class CostInsurance(BaseModel):
+    cost_insurance: float = Field(ge=0)
