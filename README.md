@@ -16,7 +16,7 @@
 
 1. Установить (для Ubuntu):
 
-Docker:
+- Docker:
     - sudo apt update
     - sudo apt install apt-transport-https ca-certificates curl software-properties-common
     - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -25,17 +25,17 @@ Docker:
     - apt-cache policy docker-ce
     - sudo apt install docker-ce
 
-Docker-compose:
+- Docker-compose:
     - sudo curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     - sudo chmod +x /usr/local/bin/docker-compose
 
 2. Создать файл .env в директории ./insurance_cost и заполнить переменные окружения, где: 
 
-DB_USER={логин пользователя PostgreSQL}
-DB_PASSWORD={пароль от пользователя PostgreSQL}
-DB_NAME={название БД в PostgreSQL}
-DB_PATH={путь для доступа к БД - postgresql://login:password@ip:port/dbname}
-DB_PATH_TORTOISE={путь для Tortoise-ORM - asyncpg://login:password@ip:port/dbname}
+- DB_USER={логин пользователя PostgreSQL}
+- DB_PASSWORD={пароль от пользователя PostgreSQL}
+- DB_NAME={название БД в PostgreSQL}
+- DB_PATH={путь для доступа к БД - postgresql://login:password@ip:port/dbname}
+- DB_PATH_TORTOISE={путь для Tortoise-ORM - asyncpg://login:password@ip:port/dbname}
 
 
 3. Запустить команду: docker-compose -f docker-compose-app.yaml up -d из директории ./insurance_cost
