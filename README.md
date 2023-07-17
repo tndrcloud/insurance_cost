@@ -8,6 +8,7 @@
 - fastapi
 - tortoise-orm
 - postgresql
+- uvicorn
 - docker
 
 Зависимости можно установить через: pip install -r requirements.txt 
