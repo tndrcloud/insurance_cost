@@ -54,3 +54,4 @@ async def get_insurance_cost(date: str, cargo_type: Category, price: float) -> C
     return await CostListPydantic.from_queryset(
         Cost.filter(date=date).filter(cargo_type=cargo_type).filter(price=price)
         )
+
