@@ -39,3 +39,8 @@
 
 
 3. Запустить команду: docker-compose -f docker-compose-app.yaml up -d из директории ./insurance_cost
+
+<h2>Эксплуатация:</h2>
+
+1. /v1/load_rates_in_database - метод для загрузки данных по тарифам из JSON файла в БД (по умолчанию БД пустая)
+2. /v1/get_insurance_cost - метод для расчёта стоимости страховки
