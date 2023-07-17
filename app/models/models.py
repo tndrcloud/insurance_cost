@@ -1,29 +1,31 @@
-from enum import Enum
-from datetime import datetime
-from pydantic import BaseModel, Field
-from typing import List, Dict, Optional, Union
+from schemas.schemas import Category
+from tortoise.models import Model
+from tortoise import fields
+from tortoise.contrib.pydantic import pydantic_model_creator, pydantic_queryset_creator
 
 
-class Category(Enum):
-    glass = "Glass"
-    electronics = "Electronics"
-    other = "Other"
+class CargoRate(Model):
+    """Модель тип груза-тариф"""
+
+    id = fields.IntField(pk=True)
+    date = fields.CharField(max_length=10)
+    cargo_type = fields.CharEnumField(Category)
+    rate = fields.FloatField()
 
 
-class CargoRate(BaseModel):
-    cargo_type: Category
-    rate: float = Field(ge=0)
+class Cost(Model):
+    """Модель стоимость страхования"""
+
+    id = fields.IntField(pk=True)
+    date = fields.CharField(max_length=10)
+    cargo_type = fields.CharEnumField(Category)
+    rate = fields.FloatField()
+    price = fields.FloatField()
+    cost = fields.FloatField()
 
 
-class DataRate(BaseModel):
-    date: List[CargoRate]
+CargoRatePydantic = pydantic_model_creator(CargoRate, name="Cargo")
+CostPydantic = pydantic_model_creator(Cost, name="Cost")
 
-
-class DataForCalculation(BaseModel):
-    date: str
-    cargo_type: Category
-    price: float = Field(ge=0)
-
-
-class CostInsurance(BaseModel):
-    cost_insurance: float = Field(ge=0)
+CargoRateListPydantic = pydantic_queryset_creator(CargoRate)
+CostListPydantic = pydantic_queryset_creator(Cost)
