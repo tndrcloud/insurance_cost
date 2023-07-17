@@ -1,7 +1,11 @@
 import json
 from fastapi import APIRouter
+from fastapi import status
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 from schemas.schemas import Category
 from tortoise.contrib.fastapi import HTTPNotFoundError
+from tortoise.exceptions import ValidationError
 from models.models import CargoRate, CargoRateListPydantic, Cost, CostListPydantic
 
 
@@ -26,14 +30,27 @@ async def load_rates() -> CargoRateListPydantic:
 
 @router.get("/get_insurance_cost", response_model=CostListPydantic, responses={404: {"model": HTTPNotFoundError}}) 
 async def get_insurance_cost(date: str, cargo_type: Category, price: float) -> CostListPydantic:
-    cargorate = await CargoRate.filter(date=date).filter(cargo_type=cargo_type).first()
+    try:
+        cargorate = await CargoRate.filter(date=date).filter(cargo_type=cargo_type).first()
 
-    await Cost.get_or_create(
-        date=date,
-        cargo_type=cargo_type,
-        rate=cargorate.rate,
-        price=price,
-        cost=cargorate.rate*price
+        await Cost.get_or_create(
+            date=date,
+            cargo_type=cargo_type,
+            rate=cargorate.rate,
+            price=price,
+            cost=cargorate.rate*price
+        )
+    
+    except AttributeError:
+        return JSONResponse(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            content=jsonable_encoder({"error": "date not found in database."})
+    )
+
+    except ValidationError:
+        return JSONResponse(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            content=jsonable_encoder({"error": "date must be format YYYY-MM-DD."})
     )
 
     return await CostListPydantic.from_queryset(

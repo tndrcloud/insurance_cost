@@ -1,6 +1,6 @@
 from enum import Enum
 from tortoise.contrib.pydantic.base import PydanticModel
-from pydantic import BaseModel, Field
+from pydantic import Field
 
 
 class Category(str, Enum):
