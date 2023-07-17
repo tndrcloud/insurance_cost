@@ -16,7 +16,8 @@ env.read_envfile("../.env")
 
 
 app = FastAPI(
-    title="Insurance Cost"
+    title="Insurance Cost",
+    version="v1"
 )
 
 app.include_router(api_router)
